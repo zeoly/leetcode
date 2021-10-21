@@ -9,8 +9,9 @@ import java.util.List;
 public class QuickSort {
 
     public static void main(String[] args) {
-        List<Integer> array = new ArrayList<Integer>( ){};
-        for (int i = 0; i < 8; i++) {
+        List<Integer> array = new ArrayList<Integer>() {
+        };
+        for (int i = 0; i < 20; i++) {
             int n = (int) (Math.random() * 100);
             array.add(n);
         }
@@ -31,11 +32,15 @@ public class QuickSort {
             return;
         }
         int pivot = array.get(start);
+        // because we pick the left one as pivot, so we move the rear pointer first to make sure when head and rear
+        // pointer meats, the pointed element will not greater than the pivot, or when there is no switch operation,
+        // the pointed element is the first one
         int head = start;
         int rear = end;
         System.out.println("pivot " + pivot);
         print(array);
         while (head != rear) {
+            // we move the rear point where pointed element is equal to the pivot to avoid dead loop
             while ((head < rear) && (array.get(rear) >= pivot)) {
                 rear--;
             }
@@ -50,7 +55,7 @@ public class QuickSort {
                 print(array);
             }
         }
-        if (pivot > array.get(head)){
+        if (pivot > array.get(head)) {
             array.set(start, array.get(head));
             array.set(head, pivot);
             System.out.println("position " + pivot + " to " + head);
