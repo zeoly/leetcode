@@ -9,8 +9,8 @@ import java.util.List;
 public class QuickSort {
 
     public static void main(String[] args) {
-        List<Integer> array = new ArrayList<Integer>();
-        for (int i = 0; i < 20; i++) {
+        List<Integer> array = new ArrayList<Integer>( ){};
+        for (int i = 0; i < 8; i++) {
             int n = (int) (Math.random() * 100);
             array.add(n);
         }
@@ -27,32 +27,36 @@ public class QuickSort {
     }
 
     private static void sort(List<Integer> array, int start, int end) {
-        int pivot = array.get(start);
-        int head = start + 1;
-        int rear = end;
         if (start >= end) {
             return;
         }
-        while (head < rear) {
+        int pivot = array.get(start);
+        int head = start;
+        int rear = end;
+        System.out.println("pivot " + pivot);
+        print(array);
+        while (head != rear) {
+            while ((head < rear) && (array.get(rear) >= pivot)) {
+                rear--;
+            }
             while ((head < rear) && (array.get(head) < pivot)) {
                 head++;
             }
-            while ((head < rear) && (array.get(rear) > pivot)) {
-                rear--;
+            if (head < rear) {
+                int temp = array.get(head);
+                array.set(head, array.get(rear));
+                array.set(rear, temp);
+                System.out.println("switch " + head + "," + rear);
+                print(array);
             }
-            if (head >= rear) {
-                break;
-            }
-            int temp = array.get(head);
-            array.set(head, array.get(rear));
-            array.set(rear, temp);
         }
-        if (head == rear && pivot < array.get(head)) {
-            head--;
+        if (pivot > array.get(head)){
+            array.set(start, array.get(head));
+            array.set(head, pivot);
+            System.out.println("position " + pivot + " to " + head);
+            print(array);
         }
-        array.set(start, array.get(head));
-        array.set(head, pivot);
         sort(array, start, head - 1);
-        sort(array, rear, end);
+        sort(array, head + 1, end);
     }
 }
